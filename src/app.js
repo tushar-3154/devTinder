@@ -2,40 +2,24 @@ const express = require("express");
 
 const app = express();
 
-app.get("/user", (req, res) => {
-    res.send({ first_name: "tushar", last_name: "solanki" });
+const { adminAuth, userAuth } = require('./middlewares/auth')
+
+app.use("/admin", adminAuth);
+
+
+app.get("/user", userAuth, (req, res) => {
+    res.send("User Data sent");
 })
 
-app.post("/user", (req, res) => {
-    res.send("Data successfully saved to the database");
+app.get("/admin/getAllData", (req, res) => {
+    res.send("All Data sent");
 })
 
-app.delete("/user", (req, res) => {
-    res.send("Deleted successfully !")
+app.get("/admin/deleteUser", (req, res) => {
+    res.send("Deleted a User");
 })
 
-
-
-
-
-//this will match all the HTTP method API calls to /test
-app.use("/hello/2", (req, res) => {
-    res.send('hello 2')
-});
-
-app.use("/hello", (req, res) => {
-    res.send('hello')
-});
-
-app.use("/test", (req, res) => {
-    res.send("test")
-});
-
-app.use("/", (req, res) => {
-    res.send("namaste tushar")
-})
-
-app.listen(4444, () => {
+app.listen(4441, () => {
     console.log('Server is successfully listening on port 7777');
 });
 
